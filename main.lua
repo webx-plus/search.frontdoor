@@ -12,7 +12,7 @@ for index, item in pairs(items) do
 end
 
 local response = fetch({
-    url = "https://api.buss.lol/domains",
+    url = "https://bussin-dns.blocklycode.org/api/resolve/",
     method = "GET",
     headers = { },
     body = ""
