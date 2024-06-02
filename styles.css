@@ -1,22 +1,66 @@
+/* bussinga! */
+
+body {
+    margin: 0;
+    background-image: url("https://media.istockphoto.com/id/1353317372/vector/abstract-liquid-waving-geometric-gradient-background-with-geometric-shape-modern-and-trendy.jpg?s=612x612&w=0&k=20&c=Si6rJk_c9d0GGdPPNtAhM2cgHLkK-I2z-5phdeKII_w=");
+    background-size: cover;
+    backdrop-filter: blur(100px);
+    color: #333333;
+    padding: 30px;
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.logo {
+    width: 200px;
+    height: auto;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main {
+    background-color: white;
+    border-radius: 30px;
+    padding: 30px;
+    min-height: calc(100vh - 60px);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; align-items: center;
+    width: 100%;
+
+    box-sizing: border-box;
+    filter: drop-shadow(-2px 4px 32px #000000);
+}
+
 input {
-    margin-top: 10px;
+    width: 20vw;
 }
 
-title {
-    direction: row;
+.title {
+    display: flex;
+    flex-direction: row;
     gap: 10px;
-
 }
 
-search-button {
+.search-button {
     padding: 10px;
 }
 
-random-button {
+.random-button {
     padding: 10px;
 }
 
-hub-title {
+.highlighted-title {
     border-color: deepskyblue;
     border-width: 2px;
     border-style: solid;
@@ -24,48 +68,80 @@ hub-title {
     padding: 3px;
 }
 
-searchArea {
-    direction: row;
+.searchArea {
+    display: flex;
+    flex-direction: row;
     gap: 20px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
-header {
-    direction: column;
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
+    transition: 1s;
 }
 
-categories {
-    direction: row;
+.content {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+    width: 100%;
 }
 
-category {
-    border-color: #4444;
-    border-width: 1px;
-    border-style: solid;
-    padding: 10px;
-}
-
-active-category {
-    underline: single;
-    underline-color: deepskyblue;
-}
-
-main {
-    direction: column;
+.results {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+
+    overflow-y: auto;
+
 }
 
-results {
-    direction: column;
-    gap: 20px;
+.item-name, .random-item-name {
+    font-size: 24px;
+    text-decoration: none;
+    color: #333333;
 }
 
-item {
+.item, .random-item {
     border-color: #5559;
     border-width: 1px;
     border-style: solid;
     border-radius: 20px;
-    padding: 30px;
-    direction: column;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-display {
+    display: flex;
+    flex-direction: row;
+}
+
+.item:has(> .item-name:empty) {
+    display: none;
+}
+
+.pagination {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+
+    & > button {
+        width: 130px;
+    }
+}
+
+.pagination:has(+ .results > div:first-child > .item-name:empty) {
+    display: none;
+}
+
+.random-item:has(> .random-item-name:empty) {
+    display: none;
 }
