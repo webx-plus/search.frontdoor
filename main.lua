@@ -148,7 +148,7 @@ function nextPage()
         return;
     end
     updatePages(math.min(page + 1, totalPages - 1));
-    page = math.min(page + 1, totalPages);
+    page = math.min(page + 1, totalPages - 1);
 end
 
 function previousPage()
