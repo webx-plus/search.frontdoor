@@ -145,8 +145,8 @@ function previousPage()
 end
 
 -- Event Listeners
---nextbtn.on_click(nextPage);
---previousbtn.on_click(previousPage);
+nextbtn.on_click(nextPage);
+previousbtn.on_click(previousPage);
 query.on_submit(applyQuery);
 btn.on_click(applyQuery);
 rndmbtn.on_click(function()
