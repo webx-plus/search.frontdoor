@@ -11,8 +11,8 @@ local currentPage = get('cur-page');
 local totalPage = get('total-page');
 
 local page = 0;
-local totalPages = 1;
-local limit = 300;
+local totalPages = 3;
+local limit = 2;
 local queried = "";
 local dns = "https://bussin-dns.votemanager.xyz/api/domains/";
 
