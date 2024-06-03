@@ -1,4 +1,26 @@
 /* bussinga! */
+@keyframes wiggle {
+    0% { transform: rotate(0deg); }
+    94% { transform: rotate(0deg); }
+    96% { transform: rotate(5deg); }
+    98% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes jumpscare {
+    0% { display: none; }
+    97% { display: none; }
+    98% { display: block; }
+    100% { display: block; }
+}
+
+.freddy {
+    width: 100vw;
+    position: absolute;
+    z-index: 1;
+    animation: jumpscare 300s infinite;
+
+}
 
 body {
     margin: 0;
@@ -19,6 +41,7 @@ button:hover {
 .logo {
     width: 200px;
     height: auto;
+    animation: wiggle 10s infinite;
 }
 
 .logo-wrapper {
@@ -96,15 +119,15 @@ input {
     display: flex;
     flex-direction: column;
     gap: 20px;
-
     overflow-y: auto;
 
-}
+    &:not(:has(> .item:first-child > .item-name:empty)) > .item:has(> .item-name:empty) {
+        display: none;
+    }
 
-.item-name, .random-item-name {
-    font-size: 24px;
-    text-decoration: none;
-    color: #333333;
+    &:has(> .item:first-child > .item-name:empty) {
+        gap: 0;
+    }
 }
 
 .item, .random-item {
@@ -115,15 +138,36 @@ input {
     padding: 10px 20px;
     display: flex;
     flex-direction: column;
+    opacity: 1;
+
+    overflow:hidden;
+
+    transition: .5s opacity ease-out, padding-left .8s cubic-bezier(0.22, 1, 0.36, 1);
+
+    &:hover {
+        background-color: #3331;
+    }
+
+    & > .item-name, .random-item-name {
+        font-size: 24px;
+        text-decoration: none;
+        color: #333333;
+    }
+
+    &:has(> .item-name:empty, .random-item-name:empty) {
+        transition: 0s!important;
+        height: 0!important;
+        width: 0;
+        position: fixed;
+        padding: 0;
+        margin: 0;
+        opacity: 0;
+    }
 }
 
 .page-display {
     display: flex;
     flex-direction: row;
-}
-
-.item:has(> .item-name:empty) {
-    display: none;
 }
 
 .pagination {
@@ -136,12 +180,10 @@ input {
     & > button {
         width: 130px;
     }
+
+    &:has(+ .results > div:first-child > .item-name:empty) {
+        display: none;
+    }
 }
 
-.pagination:has(+ .results > div:first-child > .item-name:empty) {
-    display: none;
-}
 
-.random-item:has(> .random-item-name:empty) {
-    display: none;
-}
