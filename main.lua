@@ -84,10 +84,7 @@ function fetchRandomItem()
         method = "GET",
         headers = { ["Content-Type"] = "application/json" }
     });
-    print('a')
     local allItems = response["data"];
-    print('a')
-
     return allItems[math.random(#allItems)];
 end
 
@@ -147,11 +144,17 @@ function applyQuery()
 end
 
 function nextPage()
-    updatePages(math.min(page + 1, totalPages));
+    if (page + 1) > (totalPages - 1) then
+        return;
+    end
+    updatePages(math.min(page + 1, totalPages - 1));
     page = math.min(page + 1, totalPages);
 end
 
 function previousPage()
+    if (page - 1) < 0 then
+        return;
+    end
     updatePages(math.max(page - 1, 0));
     page = math.max(page - 1, 0);
 end
