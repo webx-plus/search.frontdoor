@@ -12,7 +12,7 @@ local totalPage = get('total-page');
 
 local page = 0;
 local totalPages = 3;
-local limit = 2;
+local limit = 6;
 local queried = "";
 local dns = "https://bussin-dns.votemanager.xyz/api/domains/";
 
@@ -64,6 +64,17 @@ function fetchDomains(_query, _page)
         headers = { ["Content-Type"] = "application/json" }
     });
     return response["data"];
+end
+
+-- Fetch number of pages for query
+function fetchTotalPages(_query)
+    local response = fetch({
+        url = dns .. "?search=" .. urlencode(_query),
+        method = "GET",
+        headers = { ["Content-Type"] = "application/json" }
+    });
+    local allPages = response["data"];
+    return math.ceil(#allPages / limit);
 end
 
 -- Fetch a random item from the dns.
@@ -121,27 +132,28 @@ function displayItems(arr)
     end
 end
 
-function updatePages()
+function updatePages(nr)
     totalPage.set_content(totalPages);
-    currentPage.set_content(page + 1);
-    displayItems(fetchDomains(queried, page));
+    currentPage.set_content(nr + 1);
+    displayItems(fetchDomains(queried, nr));
 end
 
 -- Retrieve the contents of the input and apply the query.
 function applyQuery()
     queried = query.get_content();
+    totalPages = fetchTotalPages(queried);
     page = 0;
-    updatePages();
+    updatePages(page);
 end
 
 function nextPage()
+    updatePages(math.min(page + 1, totalPages));
     page = math.min(page + 1, totalPages);
-    updatePages();
 end
 
 function previousPage()
+    updatePages(math.max(page - 1, 0));
     page = math.max(page - 1, 0);
-    updatePages();
 end
 
 -- Event Listeners
