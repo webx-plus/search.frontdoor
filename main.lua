@@ -14,7 +14,7 @@ local page = 0;
 local totalPages = 1;
 local limit = 300;
 local queried = "";
-local dns = "https://webxdns.votemanager.xyz/domain/";
+local dns = "https://webxdns.votemanager.xyz/domains/";
 
 function main()
     clearItems();
