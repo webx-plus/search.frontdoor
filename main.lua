@@ -11,8 +11,8 @@ local currentPage = get('cur-page');
 local totalPage = get('total-page');
 
 local page = 0;
-local totalPages = 1;
-local limit = 300;
+local totalPages = 3;
+local limit = 6;
 local queried = "";
 local dns = "https://webxdns.votemanager.xyz/domain/";
 
@@ -66,6 +66,17 @@ function fetchDomains(_query, _page)
     return response["data"];
 end
 
+-- Fetch number of pages for query
+function fetchTotalPages(_query)
+    local response = fetch({
+        url = dns .. "?search=" .. urlencode(_query),
+        method = "GET",
+        headers = { ["Content-Type"] = "application/json" }
+    });
+    local allPages = response["data"];
+    return math.ceil(#allPages / limit);
+end
+
 -- Fetch a random item from the dns.
 function fetchRandomItem()
     local response = fetch({
@@ -73,10 +84,7 @@ function fetchRandomItem()
         method = "GET",
         headers = { ["Content-Type"] = "application/json" }
     });
-    print('a')
     local allItems = response["data"];
-    print('a')
-
     return allItems[math.random(#allItems)];
 end
 
@@ -121,32 +129,39 @@ function displayItems(arr)
     end
 end
 
-function updatePages()
+function updatePages(nr)
     totalPage.set_content(totalPages);
-    currentPage.set_content(page + 1);
-    displayItems(fetchDomains(queried, page));
+    currentPage.set_content(nr + 1);
+    displayItems(fetchDomains(queried, nr));
 end
 
 -- Retrieve the contents of the input and apply the query.
 function applyQuery()
     queried = query.get_content();
+    totalPages = fetchTotalPages(queried);
     page = 0;
-    updatePages();
+    updatePages(page);
 end
 
 function nextPage()
-    page = math.min(page + 1, totalPages);
-    updatePages();
+    if (page + 1) > (totalPages - 1) then
+        return;
+    end
+    updatePages(math.min(page + 1, totalPages - 1));
+    page = math.min(page + 1, totalPages - 1);
 end
 
 function previousPage()
+    if (page - 1) < 0 then
+        return;
+    end
+    updatePages(math.max(page - 1, 0));
     page = math.max(page - 1, 0);
-    updatePages();
 end
 
 -- Event Listeners
---nextbtn.on_click(nextPage);
---previousbtn.on_click(previousPage);
+nextbtn.on_click(nextPage);
+previousbtn.on_click(previousPage);
 query.on_submit(applyQuery);
 btn.on_click(applyQuery);
 rndmbtn.on_click(function()
